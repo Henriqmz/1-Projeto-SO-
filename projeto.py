@@ -7,6 +7,14 @@ def main():
         directory = os.getcwd()
         prompt = input(f"-> {directory} > ")
         history.append(prompt)
+
+        if prompt == "rec":
+            try:
+                prompt = history[-2]
+            except IndexError:
+                print ("Tried to use 'rec' as first command")
+                continue
+
         while prompt.startswith("rec "):
             try:
                 prompt = history[int(prompt[4:])-1]
@@ -20,6 +28,9 @@ def main():
         if prompt == "history":
             for i in range(len(history)):
                 print (f"{i+1} - {history[i]}")
+
+        elif prompt == "cd":
+            os.chdir(os.environ["USERPROFILE"])
 
         elif prompt.startswith("cd "):
             try:
