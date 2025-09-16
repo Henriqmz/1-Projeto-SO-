@@ -8,15 +8,14 @@ def main():
         prompt = input(f"-> {directory} > ")
         history.append(prompt)
         while prompt.startswith("rec "):
-            if prompt.startswith("rec "):
-                try:
-                    prompt = history[int(prompt[4:])-1]
-                except IndexError:
-                    print("Not that many commands have been executed yet.")
-                    break
-                except ValueError:
-                    print("That is not an integer.")
-                    break
+            try:
+                prompt = history[int(prompt[4:])-1]
+            except IndexError:
+                print("Not that many commands have been executed yet.")
+                break
+            except ValueError:
+                print("That is not an integer.")
+                break
 
         if prompt == "history":
             for i in range(len(history)):
