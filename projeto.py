@@ -7,16 +7,6 @@ def main():
         prompt = input(f"-> {directory} > ")
         history.append(prompt)
 
-        if prompt == "rec":
-            try:
-                prompt = history[-2]
-                if prompt == "rec":
-                    print ("Last command was a rec")
-                    continue
-            except IndexError:
-                print ("Tried to use 'rec' as first command")
-                continue
-
         while prompt.startswith("rec "):
             if prompt == "rec 0":
                 print("Tried to use rec 0 (Program starts counting from 1).")
@@ -30,6 +20,16 @@ def main():
                 except ValueError:
                     print("That is not an integer.")
                     break
+
+        if prompt == "rec":
+            try:
+                prompt = history[-2]
+                if prompt == "rec":
+                    print ("Last command was a rec")
+                    continue
+            except IndexError:
+                print ("Tried to use 'rec' as first command")
+                continue
 
         if prompt == "history":
             for i in range(len(history)):
