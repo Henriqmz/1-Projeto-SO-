@@ -1,5 +1,4 @@
 import os
-import sys
 
 def main():
     history = []
@@ -11,19 +10,26 @@ def main():
         if prompt == "rec":
             try:
                 prompt = history[-2]
+                if prompt == "rec":
+                    print ("Last command was a rec")
+                    continue
             except IndexError:
                 print ("Tried to use 'rec' as first command")
                 continue
 
         while prompt.startswith("rec "):
-            try:
-                prompt = history[int(prompt[4:])-1]
-            except IndexError:
-                print("Not that many commands have been executed yet.")
+            if prompt == "rec 0":
+                print("Tried to use rec 0 (Program starts counting from 1).")
                 break
-            except ValueError:
-                print("That is not an integer.")
-                break
+            else:
+                try:
+                    prompt = history[int(prompt[4:])-1]
+                except IndexError:
+                    print("Not that many commands have been executed yet.")
+                    break
+                except ValueError:
+                    print("That is not an integer.")
+                    break
 
         if prompt == "history":
             for i in range(len(history)):
@@ -48,10 +54,11 @@ def main():
         elif prompt.startswith("rec ") == False:
             test_command = os.system(prompt)
             if test_command != 0:
-                for i in range(2):
-                    sys.stdout.write('\x1b[1A') #move o cursor para a linha de cima
-                    sys.stdout.write('\x1b[2K') #apaga a linha
-                print ("\nInvalid command.")
+                print('\x1b[2A') #move o cursor para a linha de cima
+                print('\x1b[2K') #apaga a linha
+                print('\x1b[3A')
+                print('\x1b[2K')
+                print ("Invalid command.")
                 print ("Here's a list of some valid commands:\nmd, cd, dir, color, ping,\necho, del, whoami, tasklist,\nchkdsk, history, rec, exit.\n")
         
         else:
